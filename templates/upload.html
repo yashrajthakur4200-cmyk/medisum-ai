@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSum - Upload</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Chart JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">MediSum</div>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/upload">Upload</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/chatbot">Chatbot</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/history">History</a></li>
+    </ul>
+</nav>
+
+<div class="main-wrapper">
+
+    <!-- ---------------- UPLOAD PANEL ---------------- -->
+    <div class="upload-panel">
+        <h2>Upload & Summarize Medical Report</h2>
+        <p class="desc">Upload a PDF or TXT file, or paste report text directly.</p>
+
+        <label class="file-label">Upload File (PDF/TXT)</label>
+        <input type="file" id="file" accept=".pdf,.txt" class="file-input">
+
+        <label class="file-label">OR Paste Text</label>
+        <textarea id="text" rows="10" placeholder="Paste medical report text here..." class="textarea"></textarea>
+
+        <button id="submitBtn" class="btn submit-btn">Summarize Report</button>
+        <p id="progress" class="loader" style="display:none;">Processing... please wait</p>
+    </div>
+
+    <!-- ---------------- RESULT PANEL ---------------- -->
+    <div class="result-panel" id="result" style="display:none;">
+        <h2>Summary Result</h2>
+
+        <div class="summary-box">
+            <p id="summaryText"></p>
+        </div>
+
+        <div class="stats-row">
+            <span class="stat">Original Words: <strong id="originalCount"></strong></span>
+            <span class="stat">Summary Words: <strong id="summaryCount"></strong></span>
+            <span class="stat">Quality Score: <strong id="qualityScore"></strong>%</span>
+        </div>
+
+        <h3>Extracted Keywords</h3>
+        <div id="keywords" class="keyword-list"></div>
+
+        <h3>Named Medical Entities</h3>
+        <div id="entities"></div>
+
+        <!-- ---------------- SEVERITY ---------------- -->
+        <h3>Severity Indicator</h3>
+        <canvas id="severityChart" width="200" height="120"></canvas>
+        <h4 id="severityLevel" style="text-align:center; font-weight:600; margin-top:8px;"></h4>
+
+        <!-- ---------------- DOCTOR RECOMMENDATION ---------------- -->
+        <h3>Doctor Recommendation</h3>
+        <p id="doctorRecommendation" style="font-weight:500; text-align:center;"></p>
+
+        <!-- ---------------- SUGGESTED DOCTORS ---------------- -->
+        <h3>Suggested Doctors</h3>
+        <p id="doctorSpecialty" style="font-weight:600; text-align:center;"></p>
+        <ul id="doctorList" style="margin-top:8px;"></ul>
+
+        <!-- ---------------- DOWNLOAD ---------------- -->
+        <form id="downloadForm" method="post" action="/download">
+            <input type="hidden" name="summary" id="hiddenSummary">
+            <button type="submit" class="download-btn">Download Summary</button>
+        </form>
+    </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+let severityChartInstance = null;
+
+document.getElementById("submitBtn").addEventListener("click", function () {
+    const formData = new FormData();
+    const file = document.getElementById("file").files[0];
+    const text = document.getElementById("text").value;
+
+    if (file) formData.append("file", file);
+    if (text.trim() !== "") formData.append("text", text);
+
+    document.getElementById("progress").style.display = "block";
+
+    fetch("/summarize", { method: "POST", body: formData })
+        .then(async res => {
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err.error || "Failed to summarize.");
+            }
+            return res.json();
+        })
+        .then(data => {
+            document.getElementById("progress").style.display = "none";
+
+            // ---------- SUMMARY ----------
+            document.getElementById("summaryText").innerHTML = data.summary;
+            document.getElementById("originalCount").textContent = data.original_word_count;
+            document.getElementById("summaryCount").textContent = data.summary_word_count;
+            document.getElementById("qualityScore").textContent = data.quality_score;
+            document.getElementById("hiddenSummary").value = data.summary;
+
+            // ---------- SEVERITY ----------
+            const severity = data.severity || { level: "Not detected", score: 0 };
+
+            document.getElementById("severityLevel").innerText =
+                `Severity Level: ${severity.level} (${severity.score}%)`;
+
+            // ---------- DOCTOR RECOMMENDATION ----------
+            document.getElementById("doctorRecommendation").innerText =
+                data.recommendation || "No recommendation available.";
+
+            // ---------- SUGGESTED DOCTORS ----------
+            document.getElementById("doctorSpecialty").innerText =
+                data.doctor_specialty || "";
+
+            document.getElementById("doctorList").innerHTML =
+                (data.suggested_doctors || [])
+                    .map(d => `<li>${d}</li>`)
+                    .join("");
+
+            // ---------- KEYWORDS ----------
+            document.getElementById("keywords").innerHTML =
+                data.keywords.map(k => `<span class="chip">${k}</span>`).join("");
+
+            // ---------- ENTITIES ----------
+            document.getElementById("entities").innerHTML =
+                data.entities.map(e => `<span class="entity-chip">${e.text} (${e.label})</span>`).join("");
+
+            document.getElementById("result").style.display = "block";
+
+            // ---------- SEVERITY CHART ----------
+            const ctx = document.getElementById("severityChart").getContext("2d");
+            if (severityChartInstance) severityChartInstance.destroy();
+
+            severityChartInstance = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["Severity Score"],
+                    datasets: [{
+                        data: [severity.score],
+                        backgroundColor:
+                            severity.score >= 70 ? "red" :
+                            severity.score >= 40 ? "orange" : "green"
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        })
+        .catch(err => {
+            document.getElementById("progress").style.display = "none";
+            alert("Error: " + err.message);
+        });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSum - About</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">MediSum</div>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/upload">Upload</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/chatbot">Chatbot</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/history">History</a></li>
+    </ul>
+</nav>
+
+<!-- ABOUT HEADER -->
+<section class="about-container">
+    <h1 class="about-title">About MediSum</h1>
+    <p class="about-subtitle">
+        MediSum is an NLP-powered system designed to automatically summarize long medical reports into clear and meaningful insights.
+        It supports PDF, text files, and direct text input processing.
+    </p>
+
+    <!-- INFO CARDS GRID -->
+    <div class="about-grid">
+
+        <div class="about-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="about-icon">
+            <h3>What is NLP?</h3>
+            <p>Natural Language Processing (NLP) enables computers to understand and process human language, supporting automated text analysis and interpretation.</p>
+        </div>
+
+        <div class="about-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" class="about-icon">
+            <h3>Medical Summarization</h3>
+            <p>MediSum applies TF-IDF and cosine similarity to extract key sentences from lengthy reports and generate high-quality summaries.</p>
+        </div>
+
+        <div class="about-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/997/997046.png" class="about-icon">
+            <h3>Why Hospitals Need It</h3>
+            <p>Summaries allow doctors to review records faster, reduce workload, enhance decision-making, and improve patient care efficiency.</p>
+        </div>
+
+        <div class="about-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/1256/1256650.png" class="about-icon">
+            <h3>Project Objective</h3>
+            <p>To build a lightweight and effective summarization framework capable of extracting keywords, entities, and quality scoring from medical text.</p>
+        </div>
+
+        <div class="about-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" class="about-icon">
+            <h3>Scope of the System</h3>
+            <p>Supports text extraction from PDF/TXT, OCR for scanned documents, entity recognition, word statistics, and summary downloads.</p>
+        </div>
+
+        <div class="about-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" class="about-icon">
+            <h3>Advantages</h3>
+            <p>Efficient, fast, minimal resources, easy deployment, user-friendly design, suitable for hospitals, clinics, and academic research.</p>
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>

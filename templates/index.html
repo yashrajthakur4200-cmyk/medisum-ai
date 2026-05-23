@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSum - Home</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="logo">MediSum</div>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/upload">Upload</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/chatbot">Chatbot</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/history">History</a></li>
+    </ul>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="fade-in">Automatic Medical Report Summarization</h1>
+        <p class="fade-in">
+            Experience the power of NLP in healthcare. MediSum transforms long and complex
+            medical reports into short, meaningful, and easy-to-read summaries.
+        </p>
+        <a href="/upload" class="btn fade-in">Get Started</a>
+    </div>
+
+    <div class="hero-image fade-in">
+        <img src="https://cdn-icons-png.flaticon.com/512/2966/2966486.png" alt="Medical Illustration">
+    </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="features">
+    <h2 class="section-title">Key Features</h2>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>📄 Smart Summarization</h3>
+            <p>
+                Uses advanced NLP techniques to generate accurate and concise summaries
+                from medical reports.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>⚠️ Severity Detection</h3>
+            <p>
+                Automatically analyzes the report to determine medical severity
+                (Low, Moderate, or High).
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>👨‍⚕️ Doctor Recommendation</h3>
+            <p>
+                Provides medical advice and suggests suitable doctors based on the
+                detected severity level.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>🗂️ History & Records</h3>
+            <p>
+                All analyzed reports are securely stored and can be viewed later
+                in the History section.
+            </p>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

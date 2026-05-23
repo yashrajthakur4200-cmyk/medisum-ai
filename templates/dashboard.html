@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediSum AI Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="dashboard-body">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            MediSum AI
+        </div>
+
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/upload">Upload</a></li>
+            <li><a href="/history">History</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/chatbot">Chatbot</a></li>
+        </ul>
+
+    </nav>
+
+    <!-- DASHBOARD -->
+    <section class="dashboard-container">
+
+        <!-- HEADER -->
+        <div class="dashboard-header">
+
+            <h1>Healthcare Analytics Dashboard</h1>
+
+            <p>
+                AI-powered medical report insights and severity analytics.
+            </p>
+
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+
+            <div class="glass-card">
+                <h2>Total Reports</h2>
+                <h1>23</h1>
+            </div>
+
+            <div class="glass-card">
+                <h2>High Severity</h2>
+                <h1>{{ stats.high }}</h1>
+            </div>
+
+            <div class="glass-card">
+                <h2>Moderate Severity</h2>
+                <h1>{{ stats.moderate }}</h1>
+            </div>
+
+            <div class="glass-card">
+                <h2>Low Severity</h2>
+                <h1>{{ stats.low }}</h1>
+            </div>
+
+        </div>
+
+        <!-- CHARTS -->
+        <div class="chart-grid">
+
+            <!-- PIE CHART -->
+            <div class="chart-card">
+
+                <h2>Severity Distribution</h2>
+
+                <canvas id="severityChart"></canvas>
+
+            </div>
+
+            <!-- BAR CHART -->
+            <div class="chart-card">
+
+                <h2>Disease Frequency</h2>
+
+                <canvas id="diseaseChart"></canvas>
+
+            </div>
+
+        </div>
+
+        <!-- ANALYTICS -->
+        <div class="analytics-section">
+
+            <div class="analytics-card">
+
+                <h2>AI Insights</h2>
+
+                <ul>
+                    <li>Most uploaded reports are moderate severity.</li>
+                    <li>Cardiology-related reports increased recently.</li>
+                    <li>Average review time reduced by 60%.</li>
+                    <li>AI chatbot improving user engagement.</li>
+                </ul>
+
+            </div>
+
+            <div class="analytics-card">
+
+                <h2>Core Features</h2>
+
+                <div class="feature-tags">
+
+                    <span>OCR</span>
+                    <span>NLP</span>
+                    <span>AI Chatbot</span>
+                    <span>Dashboard</span>
+                    <span>Analytics</span>
+                    <span>Cloud</span>
+                    <span>Severity Detection</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CHART SCRIPT -->
+    <script>
+
+        // ================= PIE CHART =================
+
+        const severityCtx =
+            document.getElementById("severityChart");
+
+        new Chart(severityCtx, {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: [
+                    "Low",
+                    "Moderate",
+                    "High"
+                ],
+
+                datasets: [{
+
+                    data: [
+
+                        Number("{{ stats.low }}"),
+                        Number("{{ stats.moderate }}"),
+                        Number("{{ stats.high }}")
+
+                    ],
+
+                    backgroundColor: [
+                        "#00d4ff",
+                        "#4f46e5",
+                        "#ff4d6d"
+                    ],
+
+                    borderWidth: 0
+
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+                        labels: {
+                            color: "white"
+                        }
+                    }
+                }
+            }
+        });
+
+        // ================= BAR CHART =================
+
+        const diseaseCtx =
+            document.getElementById("diseaseChart");
+
+        new Chart(diseaseCtx, {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+                    "Diabetes",
+                    "Cardiology",
+                    "Cancer",
+                    "Hypertension",
+                    "Neurology"
+                ],
+
+                datasets: [{
+
+                    label: "Cases",
+
+                    data: [
+                        12,
+                        18,
+                        6,
+                        10,
+                        5
+                    ],
+
+                    backgroundColor: [
+                        "#00d4ff",
+                        "#4f46e5",
+                        "#ff4d6d",
+                        "#14b8a6",
+                        "#f59e0b"
+                    ]
+
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+                        labels: {
+                            color: "white"
+                        }
+                    }
+                },
+
+                scales: {
+
+                    x: {
+                        ticks: {
+                            color: "white"
+                        }
+                    },
+
+                    y: {
+                        ticks: {
+                            color: "white"
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

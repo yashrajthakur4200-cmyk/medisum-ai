@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediSum AI Chatbot</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="chatbot-body">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            MediSum AI
+        </div>
+
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/upload">Upload</a></li>
+            <li><a href="/history">History</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/chatbot">Chatbot</a></li>
+        </ul>
+
+    </nav>
+
+    <!-- CHATBOT CONTAINER -->
+    <section class="chatbot-container">
+
+        <div class="chatbot-header">
+
+            <h1>AI Healthcare Assistant</h1>
+
+            <p>
+                Ask questions related to your summarized medical reports.
+            </p>
+
+        </div>
+
+        <!-- CHAT BOX -->
+        <div class="chat-box" id="chatBox">
+
+            <div class="bot-message">
+                Hello 👋<br><br>
+                Upload and summarize a medical report first, then ask me anything about it.
+            </div>
+
+        </div>
+
+        <!-- INPUT AREA -->
+        <div class="chat-input-area">
+
+            <input
+                type="text"
+                id="questionInput"
+                placeholder="Ask something about your report..."
+            >
+
+            <button onclick="sendMessage()">
+                Send
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+        async function sendMessage() {
+
+            const input = document.getElementById("questionInput");
+
+            const chatBox = document.getElementById("chatBox");
+
+            const question = input.value.trim();
+
+            if (!question) return;
+
+            // USER MESSAGE
+            chatBox.innerHTML += `
+                <div class="user-message">
+                    ${question}
+                </div>
+            `;
+
+            input.value = "";
+
+            // LOADING MESSAGE
+            chatBox.innerHTML += `
+                <div class="bot-message loading">
+                    Thinking...
+                </div>
+            `;
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+
+                const response = await fetch("/chat", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        question: question
+                    })
+                });
+
+                const data = await response.json();
+
+                // REMOVE LOADING
+                const loading =
+                    document.querySelector(".loading");
+
+                if (loading) {
+                    loading.remove();
+                }
+
+                // BOT RESPONSE
+                chatBox.innerHTML += `
+                    <div class="bot-message">
+                        ${data.response}
+                    </div>
+                `;
+
+                chatBox.scrollTop =
+                    chatBox.scrollHeight;
+
+            }
+
+            catch (error) {
+
+                chatBox.innerHTML += `
+                    <div class="bot-message">
+                        Error connecting to chatbot.
+                    </div>
+                `;
+            }
+        }
+
+    </script>
+
+</body>
+</html>

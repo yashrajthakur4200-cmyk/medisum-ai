@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MediSum - History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">MediSum</div>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/upload">Upload</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/chatbot">Chatbot</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/history">History</a></li>
+    </ul>
+</nav>
+
+<!-- CONTENT -->
+<div class="container">
+    <h2>Report History</h2>
+
+    {% if reports %}
+        {% for r in reports %}
+        <div class="summary-box">
+            <p><strong>Date:</strong> {{ r[5] }}</p>
+
+            <p>
+                <strong>Severity:</strong>
+                {{ r[2] }} ({{ r[3] }}%)
+            </p>
+
+            <p>
+                <strong>Doctor Recommendation:</strong><br>
+                {{ r[4] }}
+            </p>
+
+            <p>
+                <strong>Summary:</strong><br>
+                {{ r[1] | safe }}
+            </p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center;">No reports found.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>
