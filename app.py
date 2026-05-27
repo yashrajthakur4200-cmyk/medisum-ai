@@ -23,14 +23,14 @@ from utils.analytics import severity_stats
 from utils.chatbot import ask_chatbot
 
 # ------------------ SYSTEM PATHS ------------------
-os.environ["PATH"] += os.pathsep + r"C:\poppler\poppler-25.11.0\Library\bin"
+# os.environ["PATH"] += os.pathsep + r"C:\poppler\poppler-25.11.0\Library\bin"
 
 # ------------------ OCR ------------------
-import pytesseract
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+# import pytesseract
+# pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 import pdfplumber
-from pdf2image import convert_from_path
+# from pdf2image import convert_from_path
 
 # ------------------ APP CONFIG ------------------
 app = Flask(__name__)
@@ -50,22 +50,25 @@ latest_summary = ""
 
 # ------------------ HELPERS ------------------
 def extract_text_from_pdf(pdf_path: str) -> str:
-    """
-    Extract text using pdfplumber OR OCR fallback.
-    """
 
     text = ""
 
     try:
+
         with pdfplumber.open(pdf_path) as pdf:
+
             for page in pdf.pages:
+
                 t = page.extract_text()
 
                 if t:
                     text += t + "\n"
 
     except Exception as e:
+
         print("PDF extraction error:", e)
+
+    return text.strip()
 
     # OCR fallback
     if not text.strip():
