@@ -3,76 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediSum - About</title>
+
+    <title>About - MediSum AI</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+
+        body{
+            margin:0;
+            padding:0;
+            background:#081229;
+            color:white;
+            font-family:Arial, sans-serif;
+        }
+
+        .about-container{
+            max-width:1200px;
+            margin:auto;
+            padding:50px 30px;
+        }
+
+        .about-title{
+            text-align:center;
+            font-size:48px;
+            font-weight:bold;
+            margin-bottom:20px;
+            color:#00d4ff;
+        }
+
+        .about-subtitle{
+            text-align:center;
+            font-size:18px;
+            color:#cfd8dc;
+            margin-bottom:60px;
+            line-height:1.7;
+        }
+
+        .about-grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:40px;
+            align-items:center;
+        }
+
+        .about-image img{
+            width:100%;
+            border-radius:20px;
+            box-shadow:0 0 25px rgba(0,212,255,0.3);
+        }
+
+        .about-content{
+            background:#101b36;
+            padding:35px;
+            border-radius:20px;
+            box-shadow:0 0 20px rgba(0,0,0,0.4);
+        }
+
+        .about-content h2{
+            color:#00d4ff;
+            margin-bottom:20px;
+        }
+
+        .about-content p{
+            color:#dce3ea;
+            line-height:1.8;
+            font-size:16px;
+        }
+
+        .feature-boxes{
+            margin-top:50px;
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:25px;
+        }
+
+        .feature{
+            background:#101b36;
+            padding:25px;
+            border-radius:18px;
+            text-align:center;
+            transition:0.3s;
+        }
+
+        .feature:hover{
+            transform:translateY(-5px);
+            box-shadow:0 0 20px rgba(0,212,255,0.3);
+        }
+
+        .feature h3{
+            color:#00d4ff;
+            margin-bottom:10px;
+        }
+
+        .feature p{
+            color:#cfd8dc;
+            font-size:14px;
+            line-height:1.6;
+        }
+
+        @media(max-width:900px){
+
+            .about-grid{
+                grid-template-columns:1fr;
+            }
+
+            .about-title{
+                font-size:38px;
+            }
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="logo">MediSum</div>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/upload">Upload</a></li>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/chatbot">Chatbot</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/history">History</a></li>
-    </ul>
-</nav>
+    <nav class="navbar">
 
-<!-- ABOUT HEADER -->
-<section class="about-container">
-    <h1 class="about-title">About MediSum</h1>
-    <p class="about-subtitle">
-        MediSum is an NLP-powered system designed to automatically summarize long medical reports into clear and meaningful insights.
-        It supports PDF, text files, and direct text input processing.
-    </p>
-
-    <!-- INFO CARDS GRID -->
-    <div class="about-grid">
-
-        <div class="about-card">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="about-icon">
-            <h3>What is NLP?</h3>
-            <p>Natural Language Processing (NLP) enables computers to understand and process human language, supporting automated text analysis and interpretation.</p>
+        <div class="logo">
+            MediSum AI
         </div>
 
-        <div class="about-card">
-            <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" class="about-icon">
-            <h3>Medical Summarization</h3>
-            <p>MediSum applies TF-IDF and cosine similarity to extract key sentences from lengthy reports and generate high-quality summaries.</p>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/upload">Upload</a></li>
+            <li><a href="/history">History</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/chatbot">Chatbot</a></li>
+        </ul>
+
+    </nav>
+
+    <div class="about-container">
+
+        <div class="about-title">
+            About MediSum AI
         </div>
 
-        <div class="about-card">
-            <img src="https://cdn-icons-png.flaticon.com/512/997/997046.png" class="about-icon">
-            <h3>Why Hospitals Need It</h3>
-            <p>Summaries allow doctors to review records faster, reduce workload, enhance decision-making, and improve patient care efficiency.</p>
+        <div class="about-subtitle">
+
+            MediSum AI is an intelligent healthcare platform designed to simplify complex medical reports using Artificial Intelligence, NLP, dashboard analytics, and conversational AI assistance.
+
         </div>
 
-        <div class="about-card">
-            <img src="https://cdn-icons-png.flaticon.com/512/1256/1256650.png" class="about-icon">
-            <h3>Project Objective</h3>
-            <p>To build a lightweight and effective summarization framework capable of extracting keywords, entities, and quality scoring from medical text.</p>
+        <div class="about-grid">
+
+            <div class="about-image">
+
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1200&auto=format&fit=crop">
+
+            </div>
+
+            <div class="about-content">
+
+                <h2>Our Mission</h2>
+
+                <p>
+
+                    MediSum AI helps patients and healthcare professionals understand lengthy medical reports quickly and efficiently. The system uses AI-powered summarization, severity analysis, conversational chatbot assistance, and interactive dashboard analytics to improve healthcare accessibility and patient understanding.
+
+                </p>
+
+                <p>
+
+                    The project combines modern AI technologies with cloud deployment to provide a smart, scalable, and user-friendly healthcare solution.
+
+                </p>
+
+            </div>
+
         </div>
 
-        <div class="about-card">
-            <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" class="about-icon">
-            <h3>Scope of the System</h3>
-            <p>Supports text extraction from PDF/TXT, OCR for scanned documents, entity recognition, word statistics, and summary downloads.</p>
-        </div>
+        <div class="feature-boxes">
 
-        <div class="about-card">
-            <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" class="about-icon">
-            <h3>Advantages</h3>
-            <p>Efficient, fast, minimal resources, easy deployment, user-friendly design, suitable for hospitals, clinics, and academic research.</p>
+            <div class="feature">
+
+                <h3>AI Summarization</h3>
+
+                <p>
+                    Automatically converts long medical reports into concise and understandable summaries.
+                </p>
+
+            </div>
+
+            <div class="feature">
+
+                <h3>Conversational AI</h3>
+
+                <p>
+                    Smart chatbot support for answering healthcare-related questions in natural language.
+                </p>
+
+            </div>
+
+            <div class="feature">
+
+                <h3>Dashboard Analytics</h3>
+
+                <p>
+                    Interactive charts and healthcare insights for better understanding and monitoring.
+                </p>
+
+            </div>
+
+            <div class="feature">
+
+                <h3>Cloud Deployment</h3>
+
+                <p>
+                    Securely accessible online healthcare platform with real-time functionality.
+                </p>
+
+            </div>
+
         </div>
 
     </div>
-
-</section>
 
 </body>
 </html>
